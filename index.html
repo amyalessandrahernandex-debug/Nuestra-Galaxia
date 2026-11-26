@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Universe ♡</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400&display=swap');
+
+*{box-sizing:border-box}
+html,body{
+ margin:0;width:100%;height:100%;
+ overflow:hidden;background:#03020b;color:white;
+ font-family:'Cormorant Garamond',serif;
+}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+.vignette{
+ position:fixed;inset:0;pointer-events:none;
+ background:radial-gradient(ellipse,transparent 35%,#03020b66 100%);
+}
+.content{
+ position:fixed;inset:0;z-index:2;
+ display:flex;flex-direction:column;
+ justify-content:center;align-items:center;
+ text-align:center;padding:20px;
+ pointer-events:none;
+}
+.eyebrow{
+ font-family:Montserrat,sans-serif;
+ font-size:10px;letter-spacing:5px;
+ color:#d9b5ff;text-transform:uppercase;
+}
+h1{
+ font-size:clamp(43px,9vw,83px);
+ font-weight:300;letter-spacing:2px;
+ margin:15px 0 5px;
+ text-shadow:0 0 30px #c38bff88;
+}
+.subtitle{
+ font-size:19px;font-style:italic;
+ color:#dfcbed;margin:8px 0;
+}
+.date{
+ font-family:Montserrat,sans-serif;
+ font-size:10px;letter-spacing:4px;
+ color:#c7a4e9;margin-top:18px;
+}
+.actions{
+ display:flex;gap:12px;flex-wrap:wrap;
+ justify-content:center;margin-top:30px;
+ pointer-events:auto;
+}
+button{
+ color:#f8edff;background:#ffffff0b;
+ border:1px solid #c9a4e477;
+ padding:12px 20px;border-radius:30px;
+ font-family:Montserrat,sans-serif;
+ font-size:10px;letter-spacing:1px;
+ cursor:pointer;transition:.3s;
+}
+button:hover{
+ background:#c69bff33;
+ border-color:#e6caff;
+ box-shadow:0 0 20px #bd83ff44;
+}
+.hint{
+ position:fixed;bottom:23px;left:0;right:0;
+ z-index:3;text-align:center;
+ font:9px Montserrat,sans-serif;
+ letter-spacing:2px;color:#c9b4ddaa;
+ pointer-events:none;
+}
+.modal{
+ display:none;position:fixed;inset:0;z-index:5;
+ background:#03020bdc;backdrop-filter:blur(12px);
+ justify-content:center;align-items:center;padding:22px;
+}
+.modal.show{display:flex}
+.paper{
+ max-width:390px;width:100%;
+ border:1px solid #c9a4e477;
+ background:linear-gradient(145deg,#211331,#0c0b20);
+ border-radius:18px;padding:35px 25px;
+ text-align:center;box-shadow:0 0 50px #9d60c933;
+}
+.paper h2{font-weight:400;font-size:32px;color:#edceff}
+.paper p{font-size:19px;line-height:1.8;color:#e5d6f0}
+.close{margin-top:15px}
+#toast{
+ position:fixed;z-index:4;top:20px;left:50%;
+ transform:translateX(-50%);
+ background:#201333dd;border:1px solid #c9a4e477;
+ border-radius:30px;padding:10px 17px;
+ font:10px Montserrat,sans-serif;
+ opacity:0;transition:.3s;pointer-events:none;
+}
+#toast.show{opacity:1}
+@media(max-width:600px){
+ h1{font-size:45px}
+ .subtitle{font-size:16px}
+ .eyebrow{letter-spacing:3px}
+ .actions{gap:8px}
+ button{padding:11px 14px;font-size:9px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="space"></canvas>
+<div class="vignette"></div>
+<div id="toast">✦ Una estrella guarda un secreto</div>
+
+<main class="content">
+ <div class="eyebrow">La galaxia guarda secretos</div>
+ <h1>Mi amor</h1>
+ <div class="subtitle">En las estrellas, tus ojos están</div>
+ <div class="date">11 · 11 · una fecha que jamás olvidarán</div>
+
+ <div class="actions">
+  <button onclick="openModal('letter')">Nuestra galaxia♡</button>
+  <button onclick="openModal('stars')">Tú constelación ✦</button>
+ </div>
+</main>
+
+<div class="hint">EXPLORÁ EL UNIVERSO · TOCÁ LAS ESTRELLAS</div>
+
+<div class="modal" id="letter" onclick="closeOutside(event)">
+ <div class="paper">
+  <div style="color:#d9b5ff;font-size:23px">♡</div>
+  <h2>Mi bonita</h2>
+  <p>
+   De todos los lugares que existen,
+   de todos los caminos que pudimos tomar,
+   qué bonito fue coincidir.
+   <br><br>
+   No sé cuántas estrellas tiene el universo,
+   pero sé que ninguna podría explicar
+   lo mucho que te amo
+   Y el cómo te veo en cada una de ellas.
+   <br><br>
+   Si tuviera que encontrarte entre mil estrellas,
+   volvería a encontrarte, solo al ver tus ojos.
+   <br><br>
+   Te amo, mi amor
+   Amy.
+  </p>
+  <button class="close" onclick="closeModal()">Cerrar ♡</button>
+ </div>
+</div>
+
+<div class="modal" id="stars" onclick="closeOutside(event)">
+ <div class="paper">
+  <div style="font-size:26px;color:#e4c2ff">✧</div>
+  <h2>Nuestra constelación</h2>
+  <p>
+   Dos estrellas que encontraron
+   su lugar en el mismo cielo.
+   <br><br>
+   Una te representa .<br>
+   Otra me representa a mí.
+   <br><br>
+   Y la fecha que une sus historias:
+   <br>
+   <span style="color:#e5baff">11 · 11</span>
+   <br><br>
+   Nuestro pequeño universo.
+  </p>
+  <button class="close" onclick="closeModal()">Cerrar ♡</button>
+ </div>
+</div>
+
+<script>
+const canvas=document.getElementById('space');
+const ctx=canvas.getContext('2d');
+let W,H,cx,cy,scale,stars=[],dust=[],planets=[];
+let rotation=0;
+let targets=[];
+
+const palette=[
+ '#ffffff','#f3d8ff','#d9a6ff',
+ '#a99aff','#9bbcff','#ffbce8'
+];
+
+function random(min,max){
+ return Math.random()*(max-min)+min;
+}
+
+function resize(){
+ const d=Math.min(devicePixelRatio||1,2);
+ W=innerWidth;H=innerHeight;
+ canvas.width=W*d;canvas.height=H*d;
+ ctx.setTransform(d,0,0,d,0,0);
+ cx=W/2;cy=H/2;
+ scale=Math.min(W,H);
+ createStars();
+}
+
+function createStars(){
+ stars=[];
+ dust=[];
+ planets=[];
+ const count=Math.min(5000,Math.max(1800,Math.floor(W*H/150)));
+
+ for(let i=0;i<count;i++){
+  const arm=Math.floor(Math.random()*5);
+  const r=Math.pow(Math.random(),0.65)*scale*.47;
+  const spread=.18;
+  const a=arm*Math.PI*2/5+r*.018+random(-spread,spread);
+  stars.push({
+   r,a,
+   z:random(.65,1.35),
+   size:random(.35,1.65),
+   color:palette[Math.floor(Math.random()*palette.length)],
+   phase:random(0,Math.PI*2),
+   speed:random(.0003,.001)
+  });
+ }
+
+ for(let i=0;i<600;i++){
+  dust.push({
+   r:random(15,scale*.44),
+   a:random(0,Math.PI*2),
+   size:random(.5,2.2),
+   opacity:random(.05,.32),
+   color:palette[Math.floor(Math.random()*palette.length)]
+  });
+ }
+
+ for(let i=0;i<3;i++){
+  planets.push({
+   orbit:scale*(.23+i*.075),
+   angle:i*2.1,
+   speed:random(.0008,.0015),
+   size:random(5,9),
+   color:palette[i+1]
+  });
+ }
+}
+
+function background(){
+ const g=ctx.createRadialGradient(cx,cy,0,cx,cy,scale*.65);
+ g.addColorStop(0,'#24123d');
+ g.addColorStop(.25,'#17102e');
+ g.addColorStop(.58,'#0a0a20');
+ g.addColorStop(1,'#03020b');
+ ctx.fillStyle=g;
+ ctx.fillRect(0,0,W,H);
+
+ const nebulae=[
+  [cx-scale*.2,cy-scale*.15,scale*.42,'#a44fbb'],
+  [cx+scale*.25,cy+scale*.13,scale*.35,'#4149b5'],
+  [cx+scale*.05,cy-scale*.28,scale*.3,'#b54e96']
+ ];
+
+ nebulae.forEach(n=>{
+  const g=ctx.createRadialGradient(n[0],n[1],0,n[0],n[1],n[2]);
+  g.addColorStop(0,n[3]+'38');
+  g.addColorStop(.45,n[3]+'16');
+  g.addColorStop(1,'transparent');
+  ctx.fillStyle=g;
+  ctx.fillRect(0,0,W,H);
+ });
+}
+
+function drawGalaxy(){
+ const max=scale*.47;
+
+ stars.forEach(s=>{
+  const a=s.a+rotation*(1-s.r/max);
+  const x=cx+Math.cos(a)*s.r;
+  const y=cy+Math.sin(a)*s.r*.56;
+  const twinkle=.45+.55*Math.sin(Date.now()*.0015+s.phase);
+
+  ctx.globalAlpha=twinkle;
+  ctx.fillStyle=s.color;
+  ctx.shadowBlur=s.size*7;
+  ctx.shadowColor=s.color;
+  ctx.beginPath();
+  ctx.arc(x,y,s.size*s.z,0,Math.PI*2);
+  ctx.fill();
+ });
+ ctx.globalAlpha=1;
+ ctx.shadowBlur=0;
+
+ dust.forEach(d=>{
+  const a=d.a+rotation*.7;
+  const x=cx+Math.cos(a)*d.r;
+  const y=cy+Math.sin(a)*d.r*.56;
+  ctx.fillStyle=d.color;
+  ctx.globalAlpha=d.opacity;
+  ctx.beginPath();
+  ctx.arc(x,y,d.size,0,Math.PI*2);
+  ctx.fill();
+ });
+ ctx.globalAlpha=1;
+}
+
+function drawCore(){
+ const glow=ctx.createRadialGradient(cx,cy,0,cx,cy,scale*.12);
+ glow.addColorStop(0,'#ffffff');
+ glow.addColorStop(.07,'#f4ddff');
+ glow.addColorStop(.18,'#dc9bffbb');
+ glow.addColorStop(.4,'#a65bdb44');
+ glow.addColorStop(1,'transparent');
+ ctx.fillStyle=glow;
+ ctx.beginPath();
+ ctx.arc(cx,cy,scale*.12,0,Math.PI*2);
+ ctx.fill();
+
+ ctx.strokeStyle='#e8c5ff35';
+ ctx.lineWidth=1;
+ ctx.beginPath();
+ ctx.ellipse(cx,cy,scale*.13,scale*.07,0,0,Math.PI*2);
+ ctx.stroke();
+}
+
+function drawPlanets(){
+ planets.forEach((p,i)=>{
+  p.angle+=p.speed;
+  const x=cx+Math.cos(p.angle)*p.orbit;
+  const y=cy+Math.sin(p.angle)*p.orbit*.56;
+
+  ctx.strokeStyle='#d4b4ff25';
+  ctx.lineWidth=.7;
+  ctx.beginPath();
+  ctx.ellipse(cx,cy,p.orbit,p.orbit*.56,0,0,Math.PI*2);
+  ctx.stroke();
+
+  const g=ctx.createRadialGradient(
+   x-p.size*.35,y-p.size*.35,1,x,y,p.size*2
+  );
+  g.addColorStop(0,'#ffffff');
+  g.addColorStop(.3,p.color);
+  g.addColorStop(1,'#292052');
+
+  ctx.shadowBlur=18;
+  ctx.shadowColor=p.color;
+  ctx.fillStyle=g;
+  ctx.beginPath();
+  ctx.arc(x,y,p.size,0,Math.PI*2);
+  ctx.fill();
+  ctx.shadowBlur=0;
+
+  if(i===0){
+   ctx.strokeStyle='#e6c5ff99';
+   ctx.beginPath();
+   ctx.ellipse(x,y,p.size*1.8,p.size*.65,-.3,0,Math.PI*2);
+   ctx.stroke();
+  }
+ });
+}
+
+function drawConstellation(){
+ const points=[
+  [-.29,-.09],[-.23,-.17],[-.14,-.13],
+  [-.08,-.22],[.01,-.18],[.09,-.10],
+  [.16,-.17],[.23,-.08],[.29,-.13]
+ ];
+ ctx.save();
+ ctx.translate(cx,cy);
+ ctx.strokeStyle='#e3c5ff99';
+ ctx.lineWidth=1;
+ ctx.setLineDash([3,7]);
+ ctx.beginPath();
+ points.forEach((p,i)=>{
+  const x=p[0]*scale,y=p[1]*scale;
+  if(i===0)ctx.moveTo(x,y);
+  else ctx.lineTo(x,y);
+ });
+ ctx.stroke();
+ ctx.setLineDash([]);
+ points.forEach((p,i)=>{
+  const x=p[0]*scale,y=p[1]*scale;
+  ctx.fillStyle=i===0||i===8?'#ffe0ff':'#c9a9ff';
+  ctx.shadowBlur=15;
+  ctx.shadowColor='#d3a3ff';
+  ctx.beginPath();
+  ctx.arc(x,y,i===0||i===8?3.2:1.8,0,Math.PI*2);
+  ctx.fill();
+ });
+ ctx.restore();
+}
+
+function animate(){
+ background();
+ drawGalaxy();
+ drawPlanets();
+ drawConstellation();
+ drawCore();
+ rotation+=.0015;
+ requestAnimationFrame(animate);
+}
+
+canvas.addEventListener('click',e=>{
+ const x=e.clientX,y=e.clientY;
+ const g=ctx.createRadialGradient(x,y,0,x,y,70);
+ g.addColorStop(0,'#ffffff55');
+ g.addColorStop(1,'transparent');
+ ctx.fillStyle=g;
+ ctx.fillRect(x-70,y-70,140,140);
+
+ const toast=document.getElementById('toast');
+ toast.classList.add('show');
+ setTimeout(()=>toast.classList.remove('show'),1800);
+});
+
+function openModal(id){
+ document.getElementById(id).classList.add('show');
+}
+function closeModal(){
+ document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show'));
+}
+function closeOutside(e){
+ if(e.target.classList.contains('modal'))closeModal();
+}
+
+addEventListener('resize',resize);
+resize();
+animate();
+</script>
+</body>
+</html>
